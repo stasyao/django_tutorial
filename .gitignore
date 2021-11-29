@@ -1,3 +1,5 @@
 notes.md
 env/
 __pycache__/
+logs.log
+draft.py
