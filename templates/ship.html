@@ -13,7 +13,17 @@
     <h2>Заказ полета</h2>
     <form actions="" method="POST">
       {% csrf_token %}
-      {{ space_form }}
+      <!-- название всего поля (всей группы радиокнопок)-->
+      {{ space_form.ship.label }}
+      <!-- запускаем цикл по полю == перебираем все радиокнопки -->
+      {% for radiobutton in space_form.ship %}
+        <!-- рендерим саму кнопку -->
+        {{ radiobutton.tag }}
+        <!-- рендерим подпись, переопределив тег label, чтобы добавить новый -->
+        <label for="{{ radiobutton.id_for_label }}" style="color: red;">
+          {{ radiobutton.choice_label }}
+        </label>
+      {% endfor %}
     </form>
   </div>
 </body>
