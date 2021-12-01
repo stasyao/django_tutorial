@@ -10,20 +10,37 @@
 </head>
 <body>
   <div class='container'>
-    <h2>Заказ полета</h2>
+    <h2>
+      Заказ полета
+    </h2>
     <form actions="" method="POST">
       {% csrf_token %}
       <!-- название всего поля (всей группы радиокнопок)-->
       {{ space_form.ship.label }}
-      <!-- запускаем цикл по полю == перебираем все радиокнопки -->
-      {% for radiobutton in space_form.ship %}
+      <!-- запускаем цикл == перебираем все радиокнопки и адреса картинок -->
+      {% for radiobutton, img_url in ship_field %}
         <!-- рендерим саму кнопку -->
         {{ radiobutton.tag }}
         <!-- рендерим подпись, переопределив тег label, чтобы добавить новый -->
-        <label for="{{ radiobutton.id_for_label }}" style="color: red;">
+        <label for="{{ radiobutton.id_for_label }}">
           {{ radiobutton.choice_label }}
+          <!-- рендерим картинку, прикрепленную к записи из Spaceship -->
+          <img src="{{ img_url }}" style="width: 200px; height: auto;">
         </label>
       {% endfor %}
+      <!-- рендерим поле выбора даты -->
+      <div style="margin-top: 30px;">
+        {{ space_form.flight_date.label }}
+        {{ space_form.flight_date }}
+        <!-- под полем отобразится сообщение об ошибке, если на бэк попадут невалидные данные -->
+        {{ space_form.flight_date.errors }}
+      </div>
+      <!-- внутри формы прикрутили сабмит-кнопку, чтобы отправлять данные из формы на бэкенд -->
+      <div style="margin-top: 10px;">
+        <button type="submit">
+          Оформить заказ
+         </button>
+      </div>
     </form>
   </div>
 </body>

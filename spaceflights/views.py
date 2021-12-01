@@ -9,8 +9,15 @@ def main_page(request):
 
 def flight_details(request):
     form = OrderForm()
+    ship_images = [ship.image.url for ship in form.fields['ship'].queryset]
+    ship_field = zip(form['ship'], ship_images)
+    if request.method == 'POST':
+        form = OrderForm(data=request.POST)
     return render(
         request,
         template_name='ship.html',
-        context={'space_form': form}
+        context={
+            'space_form': form,
+            'ship_field': ship_field
+        }
     )
