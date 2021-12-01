@@ -3,3 +3,4 @@ env/
 __pycache__/
 logs.log
 draft.py
+db.sqlite3
