@@ -7,6 +7,13 @@
   <title>
     Выбираем корабль и дату полета
   </title>
+  <style>
+    .errorlist {
+      list-style-type: none;
+      font-family: Calibri;
+      color: red;
+    }
+  </style>
 </head>
 <body>
   <div class='container'>
@@ -15,6 +22,7 @@
     </h2>
     <form actions="" method="POST">
       {% csrf_token %}
+      {{ space_form.non_field_errors }}
       <!-- название всего поля (всей группы радиокнопок)-->
       {{ space_form.ship.label }}
       <!-- запускаем цикл == перебираем все радиокнопки и адреса картинок -->
@@ -35,7 +43,10 @@
         <!-- под полем отобразится сообщение об ошибке, если на бэк попадут невалидные данные -->
         {{ space_form.flight_date.errors }}
       </div>
-      <!-- внутри формы прикрутили сабмит-кнопку, чтобы отправлять данные из формы на бэкенд -->
+      <div style="margin-top: 30px;">
+        {{ space_form.currency.label }}
+        {{ space_form.currency }}
+      </div>
       <div style="margin-top: 10px;">
         <button type="submit">
           Оформить заказ
