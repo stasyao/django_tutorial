@@ -1,5 +1,7 @@
+import datetime
 from pathlib import Path
 
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -24,13 +26,26 @@ class Spaceship(models.Model):
         return self.name
 
 
+def get_min_date():
+    """Возвращает текущую дату, увеличенную на 4 недели."""
+    return datetime.date.today() + datetime.timedelta(weeks=4)
+
+
 class Order(models.Model):
-    ship = models.ForeignKey(to=Spaceship, on_delete=models.CASCADE,
+    ship = models.ForeignKey(to=Spaceship,
+                             on_delete=models.CASCADE,
                              verbose_name='корабль')
-    passenger = models.CharField(
-        max_length=10, verbose_name='пассажир', blank=True
+    passenger = models.CharField(max_length=10,
+                                 verbose_name='пассажир')
+    flight_date = models.DateField(
+        validators=[
+            MinValueValidator(
+                get_min_date,
+                message=f"Дата должна быть не меньше {get_min_date().strftime('%d-%m-%Y')}"
+            )
+        ],
+        verbose_name='дата полета',
     )
-    flight_date = models.DateField(verbose_name='дата полета')
 
     class Meta:
         verbose_name = 'заказ'
